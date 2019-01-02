@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>rainmote</title>
+
+    <!-- Use minimum-scale=1 to enable GPU rasterization -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1, minimum-scale=1">
+
+</head>
+<body>
+<div id="output"></div>
+<div id="app"></div>
+
+<!-- scripts and styles
+{% style "https://cdnjs.cloudflare.com/ajax/libs/antd/3.11.0/antd.min.css" %}
+-->
+{% style "/css/antd.min.css" %}
+{% style "/css/ant-design-pro.min.css" %}
+{% style "/css/screen.css" %}
+
+<!--
+{% style "/assets/bootstrap/css/bootstrap.min.css" %}
+{% style "/assets/font-awesome/css/all.css" %}
+{% script "/assets/jquery/jquery.min.js" %}
+{% script "/assets/font-awesome/js/all.js" %}
+{% script "/assets/tether/dist/js/tether.min.js" %}
+{% script "/assets/bootstrap/js/bootstrap.min.js" %}
+-->
+
+<script type="text/javascript"> var csrfToken = "{{csrf-token}}";</script>
+{% script "/js/app.js" %}
+</body>
+</html>
