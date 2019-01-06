@@ -46,8 +46,11 @@
 
                  [com.taoensso/sente "1.13.1"]
                  [com.taoensso/timbre "4.10.0"]
+                 [digest "1.4.8"]
                  [antizer "0.3.1"]
                  [clj-antd-pro "0.1.0"]
+                 [clj-http "3.9.1"]
+                 [cheshire "5.8.1"]
                  ]
   :min-lein-version "2.0.0"
   
