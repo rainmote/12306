@@ -17,6 +17,7 @@
                  [compojure "1.6.1"]
                  [conman "0.8.2"]
                  [cprop "0.1.11"]
+                 [enlive "1.1.6"]
                  [funcool/struct "1.3.0"]
                  [luminus-aleph "0.1.5"]
                  [luminus-migrations "0.5.3"]
@@ -117,14 +118,14 @@
                                  [day8.re-frame/re-frame-10x "0.3.3-react16"]
                                  [doo "0.1.10"]
                                  [expound "0.7.1"]
-                                 [figwheel-sidecar "0.5.16"]
+                                 [figwheel-sidecar "0.5.18"]
                                  [pjstadig/humane-test-output "0.8.3"]
                                  [prone "1.6.0"]
                                  [ring/ring-devel "1.6.3"]
                                  [ring/ring-mock "0.3.2"]]
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.23.0"]
                                  [lein-doo "0.1.10"]
-                                 [lein-figwheel "0.5.16"]]
+                                 [lein-figwheel "0.5.18"]]
                   :cljsbuild
                   {:builds
                    {:app

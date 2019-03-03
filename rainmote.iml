@@ -37,7 +37,7 @@
     <orderEntry type="library" name="Leiningen: byte-streams:0.2.2" level="project" />
     <orderEntry type="library" name="Leiningen: ch.qos.logback/logback-classic:1.2.3" level="project" />
     <orderEntry type="library" name="Leiningen: ch.qos.logback/logback-core:1.2.3" level="project" />
-    <orderEntry type="library" name="Leiningen: cheshire:5.7.1" level="project" />
+    <orderEntry type="library" name="Leiningen: cheshire:5.8.1" level="project" />
     <orderEntry type="library" name="Leiningen: cider/piggieback:0.3.9" level="project" />
     <orderEntry type="library" name="Leiningen: circleci/clj-yaml:0.5.5" level="project" />
     <orderEntry type="library" name="Leiningen: clj-antd-pro:0.1.0" level="project" />
@@ -76,8 +76,8 @@
     <orderEntry type="library" name="Leiningen: com.fasterxml.jackson.core/jackson-annotations:2.9.0" level="project" />
     <orderEntry type="library" name="Leiningen: com.fasterxml.jackson.core/jackson-core:2.9.6" level="project" />
     <orderEntry type="library" name="Leiningen: com.fasterxml.jackson.core/jackson-databind:2.9.6" level="project" />
-    <orderEntry type="library" name="Leiningen: com.fasterxml.jackson.dataformat/jackson-dataformat-cbor:2.8.6" level="project" />
-    <orderEntry type="library" name="Leiningen: com.fasterxml.jackson.dataformat/jackson-dataformat-smile:2.8.6" level="project" />
+    <orderEntry type="library" name="Leiningen: com.fasterxml.jackson.dataformat/jackson-dataformat-cbor:2.9.6" level="project" />
+    <orderEntry type="library" name="Leiningen: com.fasterxml.jackson.dataformat/jackson-dataformat-smile:2.9.6" level="project" />
     <orderEntry type="library" name="Leiningen: com.fasterxml.jackson.datatype/jackson-datatype-joda:2.9.6" level="project" />
     <orderEntry type="library" name="Leiningen: com.fasterxml.jackson.datatype/jackson-datatype-jsr310:2.9.5" level="project" />
     <orderEntry type="library" name="Leiningen: com.github.fge/btf:1.2" level="project" />
@@ -125,10 +125,11 @@
     <orderEntry type="library" name="Leiningen: de.kotka/lazymap:3.1.0" level="project" />
     <orderEntry type="library" name="Leiningen: digest:1.4.8" level="project" />
     <orderEntry type="library" name="Leiningen: doo:0.1.10" level="project" />
+    <orderEntry type="library" name="Leiningen: enlive:1.1.6" level="project" />
     <orderEntry type="library" name="Leiningen: expiring-map:0.1.8" level="project" />
     <orderEntry type="library" name="Leiningen: expound:0.7.1" level="project" />
-    <orderEntry type="library" name="Leiningen: figwheel-sidecar:0.5.16" level="project" />
-    <orderEntry type="library" name="Leiningen: figwheel:0.5.16" level="project" />
+    <orderEntry type="library" name="Leiningen: figwheel-sidecar:0.5.18" level="project" />
+    <orderEntry type="library" name="Leiningen: figwheel:0.5.18" level="project" />
     <orderEntry type="library" name="Leiningen: fipp:0.6.7" level="project" />
     <orderEntry type="library" name="Leiningen: frankiesardo/linked:1.2.9" level="project" />
     <orderEntry type="library" name="Leiningen: funcool/cuerdas:2.0.5" level="project" />
@@ -190,6 +191,7 @@
     <orderEntry type="library" name="Leiningen: org.apache.httpcomponents/httpmime:4.5.5" level="project" />
     <orderEntry type="library" name="Leiningen: org.bouncycastle/bcpkix-jdk15on:1.58" level="project" />
     <orderEntry type="library" name="Leiningen: org.bouncycastle/bcprov-jdk15on:1.58" level="project" />
+    <orderEntry type="library" name="Leiningen: org.ccil.cowan.tagsoup/tagsoup:1.2.1" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/clojure:1.9.0" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/clojurescript:1.10.339" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/core.async:0.4.474" level="project" />
@@ -216,6 +218,7 @@
     <orderEntry type="library" name="Leiningen: org.flatland/ordered:1.5.6" level="project" />
     <orderEntry type="library" name="Leiningen: org.flatland/useful:0.9.0" level="project" />
     <orderEntry type="library" name="Leiningen: org.javassist/javassist:3.18.1-GA" level="project" />
+    <orderEntry type="library" name="Leiningen: org.jsoup/jsoup:1.7.2" level="project" />
     <orderEntry type="library" name="Leiningen: org.mozilla/rhino:1.7R5" level="project" />
     <orderEntry type="library" name="Leiningen: org.msgpack/msgpack:0.6.12" level="project" />
     <orderEntry type="library" name="Leiningen: org.ow2.asm/asm-all:4.2" level="project" />

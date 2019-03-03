@@ -16,3 +16,4 @@ profiles.clj
 .rebel_readline_history
 figwheel_server.log
 12306.edn
+*.log

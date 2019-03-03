@@ -13,7 +13,8 @@
             [taoensso.timbre :as timbre]
             [antizer.reagent :as ant]
             [clj-antd-pro.reagent :as antp]
-            [rainmote.ticket-tool.online.ui])
+            [rainmote.ticket-tool.online.ui]
+            [rainmote.intelligence.tor.ui])
   (:import goog.History))
 
 (defn home-page []
@@ -29,6 +30,17 @@
     :content #'home-page
     :icon "home"
     :name "首页"}
+   {:type :submenu
+    :nav-path [:intelligence]
+    :title {:type :menu
+            ;;:icon "radar-chart"
+            :icon "global"
+            :name "情报"}
+    :data [{:type :menu
+            :nav-path [:intelligence :tor]
+            :content #'rainmote.intelligence.tor.ui/page
+            :url "/intelligence/tor"
+            :name "Tor"}]}
    {:type :submenu
     :nav-path [:ticket-tool]
     :title {:type :menu
@@ -72,8 +84,8 @@
             ,,,)
        #_(#(timbre/spy :info %))))
 
-(defn distinct-consequtive [sequence]
-  (map first (partition-by identity sequence)))
+(defn distinct-consequtive [s]
+  (map first (partition-by identity s)))
 
 (defn header [nav-path]
   (let [breadcrumb (-> (cons :home nav-path)

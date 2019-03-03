@@ -24,8 +24,8 @@
    :insecure? true
    :ignore-unknown-host? true
    :throw-exceptions false
-   :conn-timeout 2000
-   :socket-timeout 2000})
+   :conn-timeout 10000
+   :socket-timeout 10000})
 
 (def left-ticket-url "https://%s/otn/leftTicket/init")
 
@@ -85,7 +85,7 @@
   (reset! *cdn-nodes* ["113.104.14.227" "58.51.168.47" "112.240.60.88"])
   (->> @*cdn-nodes*
        (pmap #(get-meta {:node %
-                         :timeout 5000})
+                         :timeout 10000})
              ,,,)
        doall)
   (timbre/infof "update cdn nodes, count:%s" (count @*cdn-nodes*)))
@@ -203,7 +203,9 @@
   (let [ch (a/chan)]
     ;; 启动一个线程来访问单个CDN
     (a/thread
-     (let [;; 将结果放在channel中
+     (let [st (System/currentTimeMillis)
+
+           ;; 将结果放在channel中
            put-ch-fn (fn [result ch]
                        (when-not (empty? result)
                          (a/>!! ch result)))
@@ -212,9 +214,9 @@
        (if meta
         (try
           (some-> {:method       :get
-                    :as           :json
-                    :url          (format "https://%s/otn/%s" node (:query-url meta))
-                    :query-params {"leftTicketDTO.train_date"   date
+                   :as           :json
+                   :url          (format "https://%s/otn/%s" node (:query-url meta))
+                   :query-params {"leftTicketDTO.train_date"   date
                                   "leftTicketDTO.from_station" from
                                   "leftTicketDTO.to_station"   to
                                   "purpose_codes"              "ADULT"}}
@@ -228,6 +230,7 @@
                   (parse-result ,,, node)
                   ;; 按照请求条件过滤出可购票的车次
                   (process-train-infos ,,, params)
+                  (assoc ,,, :start-time st)
                   ;; 结果保存至channel
                   (put-ch-fn ,,, ch))
           (catch Exception e
@@ -245,7 +248,7 @@
 
 (defn query-left-ticket-info
   [{:keys [timeout cdn-num]
-    :or {timeout 1000
+    :or {timeout 30000
          cdn-num Integer/MAX_VALUE}
     :as params}]
   (start-update-cdn-thread)
@@ -262,23 +265,27 @@
                       query)
                 ,,,)
           ;; 得到所有channel, 并加入超时时间
-          (#(conj % (a/timeout timeout)) ,,,)
+          ;;(#(conj % (a/timeout timeout)) ,,,)
           ;; 等待channel返回
           a/alts!!
           ;; 处理channel信息
           ((fn [[v ch]]
-              (if v
-                (-> v :node)
+             (if v
+               (timbre/infof "node:%s, seats:%s, cost:%dms"
+                             (-> v :node)
+                             (-> v :trains :seats)
+                             (->> v :start-time (- (System/currentTimeMillis) ,,,)))
                 ;; 当v为空时，说明channel超时了
                 (timbre/errorf "no resp, channel timeout[%s]!" timeout)))
             ,,,)))))
 
 (comment
-  (query-left-ticket-info {:date "2019-01-18"
+  (start-update-cdn-thread)
+  (query-left-ticket-info {:date "2019-02-17"
                            :from "HZH"
                            :to "XAY"
                            :trains ["1154" "Z86" "G1874"]
                            :seats ["硬座" "商务座"]
                            :tickets 3
-                           :cdn-num 5})
+                           :cdn-num 10})
 )
