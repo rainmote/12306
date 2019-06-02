@@ -13,7 +13,9 @@
             [taoensso.timbre :as timbre]
             [antizer.reagent :as ant]
             [clj-antd-pro.reagent :as antp]
-            [rainmote.ticket-tool.online.ui]
+            [rainmote.ticket-tool.dashboard.ui]
+            [rainmote.ticket-tool.add.ui]
+            [rainmote.slave.add.ui]
             [rainmote.intelligence.tor.ui])
   (:import goog.History))
 
@@ -47,10 +49,25 @@
             :icon "tool"
             :name "抢票工具"}
     :data [{:type :menu
-            :nav-path [:ticket-tool :online]
-            :content #'rainmote.ticket-tool.online.ui/page
-            :url "/ticket-tool/online"
-            :name "在线抢购"}]}
+            :nav-path [:ticket-tool :dashboard]
+            :content #'rainmote.ticket-tool.dashboard.ui/page
+            :url "/ticket-tool/dashboard"
+            :name "大盘"}
+           {:type :menu
+            :nav-path [:ticket-tool :add]
+            :content #'rainmote.ticket-tool.add.ui/page
+            :url "/ticket-tool/add"
+            :name "新建任务"}]}
+   {:type :submenu
+    :nav-path [:slave]
+    :title {:type :menu
+            :icon "cluster"
+            :name "节点管理"}
+    :data [{:type :menu
+            :nav-path [:slave :add]
+            :content #'rainmote.slave.add.ui/page
+            :url "/slave/add"
+            :name "新增节点"}]}
    {:type :menu
     :nav-path [:about]
     :url "/about"
@@ -149,7 +166,7 @@
   [ant/layout-content
    [:div {:style {:background "#FFFFFF"
                   :margin "16px 16px"
-                  :minHeight 360
+                  :minHeight 1080
                   :padding 24}}
     (when nav-path
       ((nav-path-> nav-path :content)))]])
@@ -162,7 +179,7 @@
   [ant/layout-footer {:style {:textAlign "center"}}
    "Copyright "
    [ant/icon {:type "copyright"}]
-   " 2018 rainmote"])
+   " 2019 rainmote"])
 
 (defn gen-page []
   (let [nav-path (rf/subscribe [:nav-path])]
