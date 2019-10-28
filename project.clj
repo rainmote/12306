@@ -17,6 +17,7 @@
                  [compojure "1.6.1"]
                  [conman "0.8.2"]
                  [cprop "0.1.11"]
+                 [dnsjava/dnsjava "2.1.9"]
                  [enlive "1.1.6"]
                  [funcool/struct "1.3.0"]
                  [luminus-aleph "0.1.5"]
@@ -42,23 +43,27 @@
                  [ring-webjars "0.2.0"]
                  [ring/ring-core "1.6.3"]
                  [ring/ring-defaults "0.3.2"]
+                 [org.flatland/ordered "1.5.7"]
                  [secretary "1.2.3"]
                  [selmer "1.12.0"]
 
                  [com.taoensso/sente "1.13.1"]
                  [com.taoensso/timbre "4.10.0"]
                  [digest "1.4.8"]
-                 [antizer "0.3.1"]
-                 [clj-antd-pro "0.1.0"]
                  [clj-http "3.9.1"]
                  [cheshire "5.8.1"]
+
+                 ;; cljsjs
+                 [cljsjs/antd "3.22.0-0"]
+                 [cljsjs/mapbox "0.46.0-0"]
                  ]
   :min-lein-version "2.0.0"
   
   :source-paths ["src/clj" "src/cljs" "src/cljc"]
   :test-paths ["test/clj"]
   :resource-paths ["resources" "target/cljsbuild"
-                   "/Users/lianshitw/clj-antd-pro/target/clj-antd-pro-0.1.0.jar"]
+                   ;;"/Users/lianshitw/clj-antd-pro/target/clj-antd-pro-0.1.0.jar"
+                   ]
   :target-path "target/%s/"
   :main ^:skip-aot rainmote.core
 
@@ -80,6 +85,7 @@
   [:target-path [:cljsbuild :builds :app :compiler :output-dir] [:cljsbuild :builds :app :compiler :output-to]]
   :figwheel
   {:http-server-root "public"
+   :reload-clj-files {:clj true :cljc true}
    :nrepl-port 7002
    :css-dirs ["resources/public/css"]
    :nrepl-middleware

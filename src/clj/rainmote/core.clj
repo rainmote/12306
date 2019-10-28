@@ -77,13 +77,17 @@
       (do
         (timbre/error "Database configuration not found, :database-url environment variable must be set before running")
         (System/exit 1))
+
       (some #{"init"} args)
       (do
         (migrations/init (select-keys env [:database-url :init-script]))
         (System/exit 0))
+
       (migrations/migration? args)
       (do
-        (migrations/migrate args (select-keys env [:database-url]))
+        (if (some #{"create"} args)
+          (migrations/create (last args) (select-keys env [:database-url]))
+          (migrations/migrate args (select-keys env [:database-url])))
         (System/exit 0))
 
       (some-> options :ruokuai)

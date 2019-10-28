@@ -4,6 +4,11 @@
 ;;dispatchers
 
 (rf/reg-event-db
+  :initial-db
+  (fn [_ _]
+    {:sider-collapsed false}))
+
+(rf/reg-event-db
   :navigate
   (fn [db [_ page]]
     (assoc db :nav-path page)))
@@ -31,3 +36,14 @@
 (rf/reg-sub
  :history-obj
  (fn [db _] (:history-obj db)))
+
+(rf/reg-event-db
+  :set-sider-collapsed
+  (fn [db [_ v]]
+    (if v
+      (assoc db :sider-collapsed v)
+      (update db :sider-collapsed not))))
+
+(rf/reg-sub
+  :sider-collapsed
+  (fn [db _] (:sider-collapsed db)))
