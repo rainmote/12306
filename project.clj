@@ -70,7 +70,7 @@
   :main ^:skip-aot rainmote.core
 
   :plugins [[lein-cljsbuild "1.1.7"]
-            [lein-sassc "0.10.4"]
+            [lein-sassc "0.10.5"]
             [lein-auto "0.1.2"]
             [lein-kibit "0.1.2"]]
    :sassc
