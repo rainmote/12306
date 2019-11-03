@@ -104,19 +104,26 @@
 (defn header [nav-path]
   [ant/LayoutHeader {:style {:background "#FFF"
                              :padding 0}}
-   [:span
     [ant/Icon {:className "trigger"
               :style {:font-size "20px"
                       :vertical-align :middle
                       :padding-left 16}
-              :theme     "filled"
+              ;;:theme     "filled"
               :type      (if @(rf/subscribe [:sider-collapsed])
                            "menu-unfold"
                            "menu-fold")
               :onClick   (fn [_]
-                           (rf/dispatch [:set-sider-collapsed]))}]]
-   [:div
-    #_[ant/Avator "Admin"]
+                           (rf/dispatch [:set-sider-collapsed]))}]
+   [:div {:style {:float "right"}}
+    [ant/Row {:type "flex" :justify "space-around"
+              :style {:padding "0 20 0 20"}}
+     [ant/Col {:span 8 :style {:padding "0 12px"}}
+      [ant/Avatar "Admin"]]
+     [ant/Col {:span 8 :style {:padding "0 12px"}}
+      [ant/Avatar "Admin"]]
+     [ant/Col {:span 8 :style {:padding "0 12px"}}
+      [ant/Avatar "Admin"]
+      ]]
     ]])
 
 (defn menu-icon [icon]

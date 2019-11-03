@@ -13,6 +13,7 @@
   :start ((or (:init defaults) identity))
   :stop  ((or (:stop defaults) identity)))
 
+
 (mount/defstate app
   :start
   (middleware/wrap-base
