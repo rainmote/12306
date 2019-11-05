@@ -85,7 +85,9 @@
 
       (migrations/migration? args)
       (do
-        (if (some #{"create"} args)
+        (timbre/info args)
+        (migrations/migrate args (select-keys env [:database-url]))
+        #_(if (some #{"create"} args)
           (migrations/create (last args) (select-keys env [:database-url]))
           (migrations/migrate args (select-keys env [:database-url])))
         (System/exit 0))
