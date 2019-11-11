@@ -11,9 +11,8 @@ CREATE TABLE dns_server
     org          varchar(255),
     as_info      varchar(255),
     domain       varchar(128),
-    tag_id       integer DEFAULT NULL,
     longitude    real,
     latitude     real,
-    last_access  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_useable TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    tag          varchar(256),
+    create_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
