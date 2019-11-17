@@ -1,6 +1,6 @@
 CREATE EXTENSION IF NOT EXISTS moddatetime;
 
-CREATE TABLE dns_server
+CREATE TABLE server
 (
     id           SERIAL PRIMARY KEY,
     ip           inet UNIQUE NOT NULL,
@@ -15,13 +15,13 @@ CREATE TABLE dns_server
     domain       varchar(128),
     longitude    real,
     latitude     real,
-    fail_count   BIGINT,
+    fail_count   BIGINT DEFAULT 0,
     tag          varchar(256),
     update_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     create_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TRIGGER dns_server_update_at
-    BEFORE UPDATE ON dns_server
+CREATE TRIGGER server_update_at
+    BEFORE UPDATE ON server
     FOR EACH ROW
-    EXECUTE PROCEDURE moddatetime (update_at);
+EXECUTE PROCEDURE moddatetime (update_at);

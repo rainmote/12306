@@ -8,6 +8,7 @@
             [rainmote.tools.ruokuai :as ruokuai]
             [mount.core :as mount]
             [taoensso.timbre :as timbre]
+            [rainmote.query-dns]
             [taoensso.timbre.appenders.core :as appenders])
   (:gen-class))
 
@@ -86,10 +87,10 @@
       (migrations/migration? args)
       (do
         (timbre/info args)
-        (migrations/migrate args (select-keys env [:database-url]))
-        #_(if (some #{"create"} args)
+        #_(migrations/migrate args (select-keys env [:database-url]))
+        (if (some #{"create"} args)
           (migrations/create (last args) (select-keys env [:database-url]))
-          (migrations/migrate args (select-keys env [:database-url])))
+          (migrations/migrate (rest args) (select-keys env [:database-url])))
         (System/exit 0))
 
       (some-> options :ruokuai)

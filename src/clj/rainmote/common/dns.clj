@@ -22,16 +22,22 @@
                 [])}))
 
 (defn lookup-answers
-  [{:keys [name type dclass server]
+  [{:keys [name type dclass server throw-exception?]
     :or {type Type/A
-         dclass DClass/IN}
+         dclass DClass/IN
+         throw-exception? false}
     :as params}]
-  (->> (lookup params)
-       :answers
-       (map #(-> % .getAddress .getHostAddress) ,,,)))
+  (try
+    (->> (lookup params)
+         :answers
+         (map #(-> % .getAddress .getHostAddress) ,,,))
+    (catch Exception e
+      (when throw-exception?
+        (throw e))))
+  )
 
 (comment
   (lookup {:name "kyfw.12306.cn"})
   (->> (lookup-answers {:name "kyfw.12306.cn"
-                :server "114.114.114.114"}))
+                        :server "114.114.114.114"}))
   )

@@ -17,3 +17,4 @@ profiles.clj
 figwheel_server.log
 12306.edn
 *.log
+dns_test
