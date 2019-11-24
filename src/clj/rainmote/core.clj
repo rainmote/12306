@@ -8,7 +8,8 @@
             [rainmote.tools.ruokuai :as ruokuai]
             [mount.core :as mount]
             [taoensso.timbre :as timbre]
-            [rainmote.query-dns]
+            [rainmote.tasks.cdn-query-dns]
+            [rainmote.tasks.cdn-ping]
             [taoensso.timbre.appenders.core :as appenders])
   (:gen-class))
 

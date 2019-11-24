@@ -17,8 +17,13 @@
 
 (def default-params
   {:headers {"Host" domain
+             "Accept" "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3"
              "Accept-Language" "zh-CN,zh;q=0.9"
-             "Accept" "*/*"}
+             "Sec-Fetch-Mode" "navigate"
+             "Sec-Fetch-Site" "none"
+             "Sec-Fetch-User" "?1"
+             "Upgrade-Insecure-Requests" "1"
+             "Accept-Encoding" "gzip, deflate, br"}
    :proxy-host "127.0.0.1"
    :proxy-port 8080
    :insecure? true
@@ -29,7 +34,7 @@
 
 (def left-ticket-url "https://%s/otn/leftTicket/init")
 
-(defn find-query-url [body]
+#_(defn find-query-url [body]
   ;; 查询余票url会变化，应该从结果中动态获取
   (re-find #"leftTicket/query\w" body))
 
@@ -47,7 +52,8 @@
           (if (= 200 (-> resp :status))
             (find-query-url (-> resp :body))
             ;; 从cdn-nodes缓存中删除该节点
-            (swap! *cdn-nodes* #(remove #{node} %))))]
+            (do (swap! *cdn-nodes* #(remove #{node} %))
+                nil)))]
     (if meta
       ;; 如果缓存中找到该节点meta，直接返回
       (do
@@ -82,7 +88,7 @@
             new-meta))))))
 
 (defn update-cdn-node [domain]
-  (reset! *cdn-nodes* ["113.104.14.227" "58.51.168.47" "112.240.60.88"])
+  (reset! *cdn-nodes* ["112.30.197.248" "60.28.100.248" "59.56.30.70"])
   (->> @*cdn-nodes*
        (pmap #(get-meta {:node %
                          :timeout 10000})
@@ -96,7 +102,7 @@
       (timbre/info "[CDN线程] CDN节点不足，开始重新获取CDN节点")
       (update-cdn-node domain))
     (timbre/debug "[CDN线程] Sleep...")
-    (Thread/sleep 10000)
+    (Thread/sleep 1000)
     (recur)))
 
 (def train-info
@@ -248,7 +254,7 @@
 
 (defn query-left-ticket-info
   [{:keys [timeout cdn-num]
-    :or {timeout 30000
+    :or {timeout 5000
          cdn-num Integer/MAX_VALUE}
     :as params}]
   (start-update-cdn-thread)
@@ -256,7 +262,7 @@
     (timbre/info "Not found cdn-nodes, please call start-update-cdn-thread for start update thread")
     (do
       (timbre/infof "当前cdn节点数量:%s" (count @*cdn-nodes*))
-      (->> @*cdn-nodes*
+      (some->> @*cdn-nodes*
           shuffle
           ;; 随机挑选指定数量的cdn节点
           (take cdn-num ,,,)
@@ -264,8 +270,9 @@
                       (merge ,,, params)
                       query)
                 ,,,)
+               doall
           ;; 得到所有channel, 并加入超时时间
-          ;;(#(conj % (a/timeout timeout)) ,,,)
+          (#(conj % (a/timeout timeout)) ,,,)
           ;; 等待channel返回
           a/alts!!
           ;; 处理channel信息
@@ -281,11 +288,11 @@
 
 (comment
   (start-update-cdn-thread)
-  (query-left-ticket-info {:date "2019-02-17"
+  (query-left-ticket-info {:date "2019-12-12"
                            :from "HZH"
                            :to "XAY"
                            :trains ["1154" "Z86" "G1874"]
                            :seats ["硬座" "商务座"]
                            :tickets 3
-                           :cdn-num 10})
+                           :cdn-num 3})
 )

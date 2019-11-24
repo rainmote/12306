@@ -1,6 +1,6 @@
 (ns rainmote.env
   (:require [selmer.parser :as parser]
-            [clojure.tools.logging :as log]
+            [taoensso.timbre :as log]
             [rainmote.dev-middleware :refer [wrap-dev]]))
 
 (def defaults

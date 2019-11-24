@@ -2,7 +2,7 @@
   (:require [rainmote.env :refer [defaults]]
             [cheshire.generate :as cheshire]
             [cognitect.transit :as transit]
-            [clojure.tools.logging :as log]
+            [taoensso.timbre :as log]
             [rainmote.layout :refer [error-page]]
             [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
             [ring.middleware.webjars :refer [wrap-webjars]]

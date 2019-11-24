@@ -48,11 +48,12 @@
        http/request
        :body))
 
-(defonce ch (a/chan 1000))
+(defonce ^:private ch (a/chan 1000))
 
 (defn start []
   (a/go-loop []
            (when-let [[ips out-ch] (a/<!! ch)]
+             ;;(println "get task ips:" ips)
              (a/>!! out-ch (batch-query {:iplist ips}))
              (a/<! (a/timeout 1000)) ;; 流控
              (recur))))
@@ -64,11 +65,12 @@
 (defn query [iplist]
   (let [out-ch (a/chan 100)]
     (->> (partition-all 100 iplist)
-         (map #(a/>!! ch (vector % out-ch)) ,,,)
-         (map (fn [_] (a/<!! out-ch)) ,,,)
-         flatten
-         doall)))
+         (map #(a/>!! ch (vector % out-ch)))
+         (map (fn [_] (a/<!! out-ch)))
+         doall
+         flatten)))
 
 (comment
  (batch-query {:iplist ["114.114.114.114" "112.10.106.99"]})
+ (query ["114.114.114.114" "1.1.1.1"])
  )

@@ -1,11 +1,9 @@
-(ns rainmote.query-dns
+(ns rainmote.tasks.cdn-query-dns
   (:require [clojure.core.async :refer [<! go-loop >!! <!! chan timeout close!]]
-            [taoensso.timbre :as timbre]
-            [clojure.tools.logging :as log]
+            [taoensso.timbre :as log]
             [rainmote.common.dns :as dns]
-            [rainmote.common.ip :as ip]
-            [rainmote.db.core :as db]
-            [mount.core :as mount]
+            [rainmote.db.helper :refer [add-ip-to-server]]
+            [mount.core :refer [defstate]]
             [rainmote.config :refer [env]]
             ))
 
@@ -18,6 +16,7 @@
     (with-open [rdr (clojure.java.io/reader path)]
       (->> rdr
            line-seq
+           shuffle
            (partition-all batch-size ,,,)
            (map #(>!! ch %) ,,,)
            doall))
@@ -28,45 +27,36 @@
 (defn start-bg-dns-query
   [{:keys [domain tag]
     :or {domain "kyfw.12306.cn"
-         tag "cdn"}}]
-  (let [cache (atom #{})]
-    (reset! cache (->> (db/query-all-ip-from-server)
-                       (map #(-> % :ip) ,,,)
-                       (into #{})))
+         tag "dns"}
+    :as params}]
     (go-loop []
            (when-let [server-list (<!! ch)]
-             (println  "process server count" (count server-list))
-             (log/info "process server list, count: " (count server-list))
+             (log/debug "process server list, count: " (count server-list))
+             (log/debug "first server: " (first server-list))
              (try
                (->> server-list
                     (map #(dns/lookup-answers {:name   domain
                                                :server %}))
                     flatten
-                    ;; 把已知ip剔除掉
-                    (filter #(if (or (contains? @cache %)
-                                     (nil? %))
-                               false
-                               true) ,,,)
-                    ;; 更新cache
+                    (filter identity)
+                    set
                     (#(do
-                        (swap! cache (partial apply conj) %)
+                        (log/debug "dns query ip count: " (count %))
+                        (log/debug (take 10 %))
                         (identity %)))
-                    (#(do
-                        (log/info "found new ip, count: " (count %))
-                        (identity %)))
-                    ip/query
-                    (map #(-> (merge % {:domain domain
-                                        :tag tag})
-                              db/insert-server-table))
-                    doall)
+                    (apply vector)
+                    (assoc params :ips ,,,)
+                    add-ip-to-server
+                    count
+                    (#(when (pos? %) (log/info "found new ip count: " %))))
                (catch Exception e
                  (.printStackTrace e)
                  (println "request failed" (str e))))
-             (log/info "sleep 5s")
-             (<! (timeout 5000))
-             (recur)))))
+             (log/debug "sleep 1s")
+             (<! (timeout 1000))
+             (recur))))
 
-(mount/defstate task
+(defstate task
           :start (do
                    (println "start task dns-query")
                    (log/info "starting background task [dns-query]")
@@ -75,6 +65,5 @@
                    (log/info "background task [dns-query] started!")
                    true)
           :stop (do
-                  (println task)
                   (close! ch)
                   (log/info "background task [dns-query] stopped!")))

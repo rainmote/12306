@@ -1,6 +1,6 @@
 (ns rainmote.nrepl
   (:require [nrepl.server :as nrepl]
-            [clojure.tools.logging :as log]))
+            [taoensso.timbre :as log]))
 
 (defn start
   "Start a network repl for debugging on specified port followed by

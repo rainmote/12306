@@ -3,7 +3,7 @@
     [cheshire.core :refer [generate-string parse-string]]
     [clj-time.jdbc]
     [clojure.java.jdbc :as jdbc]
-    [clojure.tools.logging :as log]
+    [taoensso.timbre :as log]
     [conman.core :as conman]
     [rainmote.config :refer [env]]
     [mount.core :refer [defstate]])

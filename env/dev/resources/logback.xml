@@ -28,7 +28,7 @@
     <logger name="org.xnio.nio" level="warn" />
     <logger name="com.zaxxer.hikari" level="warn" />
     <logger name="io.netty" level="warn" />
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </root>
